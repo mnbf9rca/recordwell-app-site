@@ -24,3 +24,6 @@ pnpm-debug.log*
 .idea/
 
 docs/plans/
+
+# local config files
+*.local.json
