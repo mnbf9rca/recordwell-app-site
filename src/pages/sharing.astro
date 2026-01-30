@@ -1,0 +1,50 @@
+---
+import FeatureLayout from '../layouts/FeatureLayout.astro';
+---
+
+<FeatureLayout
+  title="Family Sharing"
+  description="Share specific medical records with family members while keeping everything else private."
+  heroTitle="Family Sharing"
+  heroSubtitle="Share Emma's vaccine records with Grandma without giving access to everything. Granular, cryptographic access control."
+>
+  <h2>Sharing that makes sense for families</h2>
+  <p>
+    Medical records are personal, but families need to share. A grandparent watching the kids needs to know about allergies. A spouse should have access in emergencies. But that doesn't mean everyone needs to see everything.
+  </p>
+  <p>
+    Recordwell lets you share per-person. Share your child's records with their other parent. Share your own records with your spouse. Keep your teenager's mental health notes private.
+  </p>
+
+  <h2>How sharing works</h2>
+  <p>
+    When you invite someone to view records, Recordwell:
+  </p>
+  <ul>
+    <li>Generates a cryptographic key specifically for that sharing relationship</li>
+    <li>Encrypts only the records you choose to share</li>
+    <li>Sends an invitation with the encrypted key material</li>
+    <li>The recipient can only decrypt what you've explicitly shared</li>
+  </ul>
+  <p>
+    This isn't permission flags in a database - it's mathematics. Someone you haven't shared with literally cannot decrypt the data, even if they somehow accessed our servers.
+  </p>
+
+  <h2>Revoking access</h2>
+  <p>
+    Life changes. Divorces happen. Relationships evolve. When you revoke someone's access:
+  </p>
+  <ul>
+    <li>We generate new encryption keys for the affected records</li>
+    <li>All data is re-encrypted with the new keys</li>
+    <li>The revoked person's old keys become useless</li>
+  </ul>
+  <p>
+    This is real revocation, not just hiding records in the UI. The old keys mathematically cannot decrypt the new data.
+  </p>
+
+  <h2>Trust, but verify</h2>
+  <p>
+    For high-security scenarios, Recordwell supports optional verification codes. When you share with someone, you can verify their identity out-of-band (in person, over the phone) using a short code. This prevents man-in-the-middle attacks on the sharing process.
+  </p>
+</FeatureLayout>

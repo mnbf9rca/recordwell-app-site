@@ -1,0 +1,287 @@
+---
+const navItems = [
+  { label: 'Features', href: '/#features', children: [
+    { label: 'Encryption', href: '/encryption/' },
+    { label: 'Family Sharing', href: '/sharing/' },
+    { label: 'Your Data', href: '/your-data/' },
+    { label: 'Architecture', href: '/architecture/' },
+  ]},
+  { label: 'Pricing', href: '/#pricing' },
+  { label: 'Privacy', href: '/privacy/' },
+  { label: 'Support', href: '/support/' },
+];
+---
+
+<nav class="nav">
+  <div class="nav-container">
+    <a href="/" class="nav-logo">
+      <img src="/favicon.svg" alt="Recordwell logo" class="nav-logo-icon" width="32" height="32" />
+      <span class="logo-text">Recordwell</span>
+    </a>
+
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="hamburger"></span>
+    </button>
+
+    <div class="nav-menu">
+      <ul class="nav-list">
+        {navItems.map((item) => (
+          <li class="nav-item">
+            {item.children ? (
+              <div class="nav-dropdown">
+                <button class="nav-link nav-dropdown-trigger">
+                  {item.label}
+                  <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                  </svg>
+                </button>
+                <ul class="nav-dropdown-menu">
+                  {item.children.map((child) => (
+                    <li><a href={child.href}>{child.label}</a></li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <a href={item.href} class="nav-link">{item.label}</a>
+            )}
+          </li>
+        ))}
+      </ul>
+
+      <a href="https://github.com/mnbf9rca/family-medical-app" class="btn btn-secondary nav-cta" target="_blank" rel="noopener">
+        GitHub
+      </a>
+    </div>
+  </div>
+</nav>
+
+<style>
+  :root {
+    --nav-height: 60px;
+  }
+
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--color-bg-primary);
+    border-bottom: 1px solid var(--color-border);
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-md) var(--space-lg);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    text-decoration: none;
+  }
+
+  .nav-logo-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-sm);
+  }
+
+  .hamburger {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--color-text-primary);
+    position: relative;
+    transition: background 0.2s;
+  }
+
+  .hamburger::before,
+  .hamburger::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background: var(--color-text-primary);
+    left: 0;
+    transition: transform 0.2s;
+  }
+
+  .hamburger::before { top: -8px; }
+  .hamburger::after { top: 8px; }
+
+  .nav-menu {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    list-style: none;
+  }
+
+  .nav-link {
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    padding: var(--space-sm) 0;
+    transition: color 0.2s;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-family: var(--font-body);
+  }
+
+  .nav-link:hover {
+    color: var(--color-brand-primary);
+  }
+
+  .nav-dropdown {
+    position: relative;
+  }
+
+  .nav-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-bg-primary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-sm);
+    min-width: 180px;
+    list-style: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .nav-dropdown:hover .nav-dropdown-menu,
+  .nav-dropdown:focus-within .nav-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-dropdown-menu li a {
+    display: block;
+    padding: var(--space-sm) var(--space-md);
+    color: var(--color-text-secondary);
+    border-radius: var(--radius-sm);
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .nav-dropdown-menu li a:hover {
+    background: var(--color-bg-secondary);
+    color: var(--color-brand-primary);
+  }
+
+  .dropdown-arrow {
+    transition: transform 0.2s;
+  }
+
+  .nav-dropdown:hover .dropdown-arrow {
+    transform: rotate(180deg);
+  }
+
+  .nav-cta {
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .nav-toggle {
+      display: block;
+    }
+
+    .nav-menu {
+      position: fixed;
+      top: var(--nav-height);
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--color-bg-primary);
+      flex-direction: column;
+      align-items: stretch;
+      padding: var(--space-lg);
+      gap: var(--space-md);
+      transform: translateX(100%);
+      transition: transform 0.3s ease, visibility 0.3s;
+      visibility: hidden;
+    }
+
+    .nav-menu.open {
+      transform: translateX(0);
+      visibility: visible;
+    }
+
+    .nav-list {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .nav-dropdown-menu {
+      position: static;
+      transform: none;
+      opacity: 1;
+      visibility: visible;
+      box-shadow: none;
+      border: none;
+      padding-left: var(--space-md);
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector('.nav-toggle');
+  const menu = document.querySelector('.nav-menu');
+
+  const isOpen = () => toggle?.getAttribute('aria-expanded') === 'true';
+
+  const closeMenu = () => {
+    toggle?.setAttribute('aria-expanded', 'false');
+    menu?.classList.remove('open');
+  };
+
+  toggle?.addEventListener('click', () => {
+    const expanded = isOpen();
+    toggle.setAttribute('aria-expanded', String(!expanded));
+    menu?.classList.toggle('open');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!isOpen()) return;
+    const target = e.target as Element;
+    if (!menu?.contains(target) && !toggle?.contains(target)) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isOpen()) {
+      closeMenu();
+    }
+  });
+</script>

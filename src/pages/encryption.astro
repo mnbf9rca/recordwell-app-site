@@ -1,0 +1,73 @@
+---
+import FeatureLayout from '../layouts/FeatureLayout.astro';
+---
+
+<FeatureLayout
+  title="Zero-Knowledge Encryption"
+  description="Learn how Recordwell uses end-to-end encryption to keep your medical records private - even from us."
+  heroTitle="Zero-Knowledge Encryption"
+  heroSubtitle="Your medical records are encrypted before they leave your device. We literally cannot read your data - and that's by design."
+>
+  <h2>What does "zero-knowledge" mean?</h2>
+  <p>
+    When we say zero-knowledge, we mean it architecturally. Your data is encrypted on your device using keys that only you control. When your encrypted data reaches our servers, it's just meaningless bytes to us.
+  </p>
+  <p>
+    This isn't marketing language - it's a fundamental design choice. Even if someone compromised our servers, they'd get nothing useful. No medical records, no family member names, no attachment contents.
+  </p>
+
+  <h2>How it works</h2>
+  <p>
+    Recordwell uses a layered encryption approach:
+  </p>
+  <ul>
+    <li><strong>Your Primary Key</strong> - Derived from your password using Argon2id, a modern algorithm designed to resist attacks. This key never leaves your device.</li>
+    <li><strong>Family Member Keys</strong> - Each person in your family has their own encryption key. Emma's records are encrypted separately from Liam's.</li>
+    <li><strong>AES-256-GCM</strong> - Industry-standard encryption for all your medical records. The same encryption used by banks and governments.</li>
+  </ul>
+
+  <h2>Technical standards</h2>
+  <p>
+    We use well-established, audited cryptographic standards - no homegrown crypto:
+  </p>
+  <ul>
+    <li><strong>AES-256-GCM</strong> - Authenticated encryption for all record data. NIST-approved, used by governments worldwide.</li>
+    <li><strong>Argon2id</strong> - Password-based key derivation. Winner of the Password Hashing Competition, designed to resist GPU and ASIC attacks.</li>
+    <li><strong>X25519</strong> - Elliptic curve Diffie-Hellman for key exchange when sharing records between family members.</li>
+    <li><strong>OPAQUE (RFC 9807)</strong> - Asymmetric password-authenticated key exchange for login. Your password is never sent to or seen by our server - not even as a hash. This also means we cannot confirm whether any specific person has registered for the service.</li>
+    <li><strong>HKDF-SHA256</strong> - Key derivation for generating per-record and per-member encryption keys from your primary key.</li>
+  </ul>
+  <p>
+    On iOS, we use Apple's CryptoKit framework which provides hardware-backed implementations where available.
+  </p>
+
+  <h2>What we can see</h2>
+  <p>
+    We believe in being honest about privacy trade-offs. Our server can see:
+  </p>
+  <ul>
+    <li>When you sync (timestamps)</li>
+    <li>How much encrypted data you store (blob sizes)</li>
+    <li>Who shares with whom (we can see that person A shares with person B, but not what they share)</li>
+  </ul>
+  <p>
+    Notably, because of OPAQUE, we cannot actually confirm that any particular person has an account. We store cryptographic material that lets you prove you know your password, but we cannot use it to identify you.
+  </p>
+  <p>
+    Our server cannot see:
+  </p>
+  <ul>
+    <li>Any medical record content</li>
+    <li>Family member names</li>
+    <li>Attachment contents or filenames</li>
+    <li>Your password or encryption keys</li>
+  </ul>
+
+  <h2>Verify it yourself</h2>
+  <p>
+    Recordwell is open source. You can audit the encryption implementation, review our architecture decisions, and verify our claims. We encourage security researchers to examine our code.
+  </p>
+  <p>
+    <a href="https://github.com/mnbf9rca/family-medical-app" target="_blank" rel="noopener">View the source code on GitHub</a>
+  </p>
+</FeatureLayout>

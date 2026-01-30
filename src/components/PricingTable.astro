@@ -1,0 +1,209 @@
+---
+const plannedFeatures = [
+  'End-to-end encryption',
+  'Offline-first - works without internet',
+  'Vaccines, medications, allergies, conditions',
+  'Custom record types',
+  'Attachments (photos, PDFs)',
+  'Data export',
+];
+
+const tiers = [
+  {
+    name: 'Free',
+    price: '$0',
+    period: 'forever',
+    description: 'Local-only storage on your device',
+    features: plannedFeatures,
+    cta: { label: 'Coming Soon', href: '#' },
+    highlighted: false,
+    badge: null,
+  },
+  {
+    name: 'Sync',
+    price: 'TBD',
+    period: '/month',
+    description: 'Multi-device sync and family sharing',
+    features: [
+      ...plannedFeatures,
+      'Multi-device sync',
+      'Family sharing',
+      'Cloud backup',
+      'Secure recovery',
+    ],
+    cta: { label: 'On Roadmap', href: '/architecture/' },
+    highlighted: true,
+    badge: 'Planned',
+  },
+  {
+    name: 'Self-Hosted',
+    price: '$0',
+    period: '+ your infrastructure',
+    description: 'Run your own backend',
+    features: [
+      ...plannedFeatures,
+      'Multi-device sync',
+      'Family sharing',
+      'Cloud backup',
+      'Secure recovery',
+      'Full infrastructure control',
+    ],
+    cta: { label: 'View Roadmap', href: '/architecture/' },
+    highlighted: false,
+    badge: 'Planned',
+  },
+];
+---
+
+<section class="pricing" id="pricing">
+  <div class="pricing-container">
+    <h2 class="pricing-title">Our planned pricing</h2>
+    <p class="pricing-subtitle">Recordwell is in development. Here's how we plan to offer it.</p>
+
+    <div class="pricing-grid">
+      {tiers.map((tier) => (
+        <div class={`pricing-card ${tier.highlighted ? 'highlighted' : ''}`}>
+          {tier.badge && <span class="pricing-badge">{tier.badge}</span>}
+          <h3 class="tier-name">{tier.name}</h3>
+          <div class="tier-price">
+            <span class="price">{tier.price}</span>
+            <span class="period">{tier.period}</span>
+          </div>
+          <p class="tier-description">{tier.description}</p>
+
+          <ul class="tier-features">
+            {tier.features.map((feature) => (
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                {feature}
+              </li>
+            ))}
+          </ul>
+
+          <a
+            href={tier.cta.href}
+            class={`btn ${tier.highlighted ? 'btn-primary' : 'btn-secondary'} tier-cta`}
+          >
+            {tier.cta.label}
+          </a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .pricing {
+    padding: var(--space-2xl) 0;
+  }
+
+  .pricing-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+  }
+
+  .pricing-title {
+    text-align: center;
+    margin-bottom: var(--space-sm);
+  }
+
+  .pricing-subtitle {
+    text-align: center;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xl);
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+    align-items: start;
+  }
+
+  .pricing-card {
+    position: relative;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pricing-card.highlighted {
+    border-color: var(--color-brand-primary);
+    box-shadow: 0 0 0 1px var(--color-brand-primary);
+  }
+
+  .pricing-badge {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--color-brand-primary);
+    color: var(--color-bg-primary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .tier-name {
+    font-size: 1.25rem;
+    margin-bottom: var(--space-sm);
+  }
+
+  .tier-price {
+    margin-bottom: var(--space-md);
+  }
+
+  .price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    font-family: var(--font-heading);
+  }
+
+  .period {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+
+  .tier-description {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-lg);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .tier-features {
+    list-style: none;
+    margin-bottom: var(--space-lg);
+    flex-grow: 1;
+  }
+
+  .tier-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+  }
+
+  .tier-features svg {
+    color: var(--color-success);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .tier-cta {
+    width: 100%;
+    justify-content: center;
+  }
+</style>

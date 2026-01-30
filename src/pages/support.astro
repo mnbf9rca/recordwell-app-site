@@ -1,0 +1,112 @@
+---
+import FeatureLayout from '../layouts/FeatureLayout.astro';
+
+const faqs = [
+  {
+    question: "Is my data really private?",
+    answer: "Yes. Your data is encrypted on your device before it ever reaches our servers. We use AES-256-GCM encryption with keys derived from your password. We literally cannot read your medical records - and that's intentional."
+  },
+  {
+    question: "What happens if I forget my password?",
+    answer: "With the Sync service, you'll have a recovery code (like a 24-word phrase) that can restore your account. Store this somewhere safe - without it, a forgotten password means lost data. This is the trade-off for true privacy."
+  },
+  {
+    question: "Can I use Recordwell without an internet connection?",
+    answer: "Absolutely. The free version works completely offline. All your data is stored locally on your device. The Sync service adds cloud backup and multi-device access, but it's never required."
+  },
+  {
+    question: "Is Recordwell HIPAA compliant?",
+    answer: "Recordwell is a personal project, not enterprise healthcare software. We've designed it with strong privacy in mind, but we don't make HIPAA compliance claims. Use it for personal and family health tracking, not clinical practice."
+  },
+  {
+    question: "How do I export my data?",
+    answer: "In the app settings, you'll find export options. You can export encrypted backups (password-protected) or decrypted JSON files. The format is documented so you can process it however you like."
+  },
+  {
+    question: "Can I self-host the backend?",
+    answer: "That's on our roadmap! The backend will be open source and designed for self-hosting. See the Architecture page for our planned approach."
+  },
+];
+---
+
+<FeatureLayout
+  title="Support"
+  description="Get help with Recordwell. FAQs, bug reports, and contact information."
+  heroTitle="Support"
+  heroSubtitle="Questions? We've got answers. For bug reports and feature requests, head to GitHub."
+>
+  <h2>Frequently Asked Questions</h2>
+
+  <div class="faq-list">
+    {faqs.map((faq) => (
+      <details class="faq-item">
+        <summary class="faq-question">{faq.question}</summary>
+        <p class="faq-answer">{faq.answer}</p>
+      </details>
+    ))}
+  </div>
+
+  <h2>Bug Reports & Feature Requests</h2>
+  <p>
+    Found a bug? Have an idea for a feature? We track everything on GitHub:
+  </p>
+  <p>
+    <a href="https://github.com/mnbf9rca/family-medical-app/issues" target="_blank" rel="noopener">Open an issue on GitHub</a>
+  </p>
+  <p>
+    Please search existing issues before creating a new one - someone might have already reported it.
+  </p>
+
+  <h2>Security Issues</h2>
+  <p>
+    If you've found a security vulnerability, please use <a href="https://github.com/mnbf9rca/family-medical-app/security/advisories/new" target="_blank" rel="noopener">GitHub's private security advisory</a> feature to report it responsibly.
+  </p>
+</FeatureLayout>
+
+<style>
+  .faq-list {
+    margin: var(--space-lg) 0;
+  }
+
+  .faq-item {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-md);
+    overflow: hidden;
+  }
+
+  .faq-question {
+    padding: var(--space-md);
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    background: var(--color-bg-secondary);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .faq-question::after {
+    content: '+';
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--color-text-muted);
+    transition: transform 0.2s;
+  }
+
+  .faq-item[open] .faq-question::after {
+    transform: rotate(45deg);
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-answer {
+    padding: var(--space-md);
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+</style>
