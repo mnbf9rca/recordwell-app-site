@@ -4,13 +4,17 @@ import FeatureLayout from '../layouts/FeatureLayout.astro';
 
 <FeatureLayout
   title="Technical Architecture"
-  description="Self-host Recordwell with Docker and S3-compatible storage. Full technical documentation for the privacy-conscious."
+  description="Recordwell's planned architecture for self-hosting with Docker and S3-compatible storage."
   heroTitle="Technical Architecture"
-  heroSubtitle="For developers and self-hosters. Understand how Recordwell works under the hood, and run your own backend."
+  heroSubtitle="For developers and privacy enthusiasts. Our planned architecture for the Recordwell backend."
 >
+  <div class="roadmap-notice">
+    <strong>Note:</strong> Self-hosting is on our roadmap. The architecture described here represents our design goals. Follow progress on <a href="https://github.com/nickstenning/recordwell" target="_blank" rel="noopener">GitHub</a>.
+  </div>
+
   <h2>Architecture overview</h2>
   <p>
-    Recordwell follows a "dumb server" design. The server stores encrypted blobs and handles authentication - nothing more. All the intelligence lives in the client.
+    Recordwell will follow a "dumb server" design. The server stores encrypted blobs and handles authentication - nothing more. All the intelligence lives in the client.
   </p>
   <ul>
     <li><strong>iOS Client</strong> - SwiftUI app with local Core Data storage, CryptoKit for encryption</li>
@@ -18,9 +22,9 @@ import FeatureLayout from '../layouts/FeatureLayout.astro';
     <li><strong>Storage</strong> - Any S3-compatible backend (AWS S3, MinIO, Cloudflare R2)</li>
   </ul>
 
-  <h2>Self-hosting requirements</h2>
+  <h2>Planned self-hosting requirements</h2>
   <p>
-    To run your own Recordwell backend:
+    When self-hosting is available, you'll need:
   </p>
   <ul>
     <li>Docker host (any Linux server, Raspberry Pi, etc.)</li>
@@ -28,7 +32,7 @@ import FeatureLayout from '../layouts/FeatureLayout.astro';
     <li>Domain with TLS certificate (Let's Encrypt works fine)</li>
   </ul>
   <p>
-    The auth server is a single Docker container. Storage is just a bucket. No database required for the minimal setup.
+    The auth server will be a single Docker container. Storage is just a bucket. No database required for the minimal setup.
   </p>
 
   <h2>Why OPAQUE?</h2>
@@ -36,12 +40,12 @@ import FeatureLayout from '../layouts/FeatureLayout.astro';
     Most apps send your password (or a hash of it) to the server during login. OPAQUE is different - it's a Password-Authenticated Key Exchange that never reveals your password to the server.
   </p>
   <p>
-    Even if our auth server is compromised, attackers can't extract passwords. They can only attempt online brute-force attacks, which we rate-limit aggressively.
+    Even if the auth server is compromised, attackers can't extract passwords. They can only attempt online brute-force attacks, which we rate-limit aggressively.
   </p>
 
   <h2>Open source</h2>
   <p>
-    Everything is open source:
+    We're committed to making everything open source:
   </p>
   <ul>
     <li>iOS app - Swift, SwiftUI, CryptoKit</li>
@@ -49,22 +53,39 @@ import FeatureLayout from '../layouts/FeatureLayout.astro';
     <li>Documentation - Architecture Decision Records (ADRs)</li>
   </ul>
   <p>
-    We publish detailed ADRs explaining every security decision. No security through obscurity.
+    We'll publish detailed ADRs explaining every security decision. No security through obscurity.
   </p>
   <p>
-    <a href="https://github.com/nickstenning/recordwell" target="_blank" rel="noopener">Explore the code on GitHub</a>
+    <a href="https://github.com/nickstenning/recordwell" target="_blank" rel="noopener">Follow development on GitHub</a>
   </p>
 
-  <h2>Getting started</h2>
+  <h2>Roadmap</h2>
   <p>
-    Self-hosting documentation is available in the GitHub repository. The basic steps:
+    Our planned development path:
   </p>
   <ol>
-    <li>Set up S3-compatible storage (MinIO recommended for home use)</li>
-    <li>Deploy the auth container with your configuration</li>
-    <li>Point the iOS app to your server URL</li>
+    <li>iOS app with local-only storage (in progress)</li>
+    <li>Hosted sync service with end-to-end encryption</li>
+    <li>Self-hosting documentation and Docker images</li>
+    <li>Family sharing with cryptographic access control</li>
   </ol>
   <p>
-    Detailed setup guides are in the docs folder.
+    Subscribe to releases on GitHub to stay updated on our progress.
   </p>
 </FeatureLayout>
+
+<style>
+  .roadmap-notice {
+    background: var(--color-brand-light);
+    border: 1px solid var(--color-brand-primary);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    margin-bottom: var(--space-xl);
+    color: var(--color-text-primary);
+  }
+
+  .roadmap-notice a {
+    color: var(--color-brand-primary);
+    font-weight: 600;
+  }
+</style>

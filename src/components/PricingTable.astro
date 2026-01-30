@@ -1,5 +1,5 @@
 ---
-const commonFeatures = [
+const plannedFeatures = [
   'End-to-end encryption',
   'Offline-first - works without internet',
   'Vaccines, medications, allergies, conditions',
@@ -13,54 +13,57 @@ const tiers = [
     name: 'Free',
     price: '$0',
     period: 'forever',
-    description: 'Everything you need for personal use',
-    features: commonFeatures,
-    cta: { label: 'Download Free', href: '#' },
+    description: 'Local-only storage on your device',
+    features: plannedFeatures,
+    cta: { label: 'Coming Soon', href: '#' },
     highlighted: false,
+    badge: null,
   },
   {
     name: 'Sync',
     price: 'TBD',
     period: '/month',
-    description: 'Never lose your records, share with family',
+    description: 'Multi-device sync and family sharing',
     features: [
-      ...commonFeatures,
+      ...plannedFeatures,
       'Multi-device sync',
       'Family sharing',
       'Cloud backup',
       'Secure recovery',
     ],
-    cta: { label: 'Coming Soon', href: '#' },
+    cta: { label: 'On Roadmap', href: '/architecture/' },
     highlighted: true,
+    badge: 'Planned',
   },
   {
     name: 'Self-Hosted',
     price: '$0',
     period: '+ your infrastructure',
-    description: 'Full control over your data',
+    description: 'Run your own backend',
     features: [
-      ...commonFeatures,
+      ...plannedFeatures,
       'Multi-device sync',
       'Family sharing',
       'Cloud backup',
       'Secure recovery',
-      'Run your own backend',
+      'Full infrastructure control',
     ],
-    cta: { label: 'View Docs', href: '/architecture/' },
+    cta: { label: 'View Roadmap', href: '/architecture/' },
     highlighted: false,
+    badge: 'Planned',
   },
 ];
 ---
 
 <section class="pricing" id="pricing">
   <div class="pricing-container">
-    <h2 class="pricing-title">Simple, transparent pricing</h2>
-    <p class="pricing-subtitle">Start free. Upgrade when you need sync and sharing.</p>
+    <h2 class="pricing-title">Our planned pricing</h2>
+    <p class="pricing-subtitle">Recordwell is in development. Here's how we plan to offer it.</p>
 
     <div class="pricing-grid">
       {tiers.map((tier) => (
         <div class={`pricing-card ${tier.highlighted ? 'highlighted' : ''}`}>
-          {tier.highlighted && <span class="pricing-badge">Most Popular</span>}
+          {tier.badge && <span class="pricing-badge">{tier.badge}</span>}
           <h3 class="tier-name">{tier.name}</h3>
           <div class="tier-price">
             <span class="price">{tier.price}</span>
