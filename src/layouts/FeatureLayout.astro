@@ -1,0 +1,139 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  heroTitle: string;
+  heroSubtitle: string;
+}
+
+const { title, description, heroTitle, heroSubtitle } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="feature-page">
+    <header class="feature-header">
+      <div class="header-container">
+        <h1>{heroTitle}</h1>
+        <p class="lead">{heroSubtitle}</p>
+      </div>
+    </header>
+
+    <div class="feature-content">
+      <slot />
+    </div>
+
+    <aside class="feature-cta">
+      <div class="cta-container">
+        <h3>Ready to try Recordwell?</h3>
+        <div class="cta-buttons">
+          <a href="/" class="btn btn-primary">Learn More</a>
+          <a href="https://github.com/nickstenning/recordwell" class="btn btn-secondary" target="_blank" rel="noopener">
+            View on GitHub
+          </a>
+        </div>
+      </div>
+    </aside>
+  </article>
+</BaseLayout>
+
+<style>
+  .feature-page {
+    min-height: 100vh;
+  }
+
+  .feature-header {
+    padding: var(--space-2xl) 0;
+    background: var(--color-bg-secondary);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .header-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+  }
+
+  .feature-header h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: var(--space-md);
+  }
+
+  .lead {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+  }
+
+  .feature-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--space-xl) var(--space-lg);
+  }
+
+  .feature-content :global(h2) {
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-md);
+  }
+
+  .feature-content :global(h3) {
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-sm);
+  }
+
+  .feature-content :global(p) {
+    margin-bottom: var(--space-md);
+    max-width: none;
+  }
+
+  .feature-content :global(ul),
+  .feature-content :global(ol) {
+    margin-bottom: var(--space-md);
+    padding-left: var(--space-lg);
+  }
+
+  .feature-content :global(li) {
+    margin-bottom: var(--space-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .feature-content :global(pre) {
+    background: var(--color-bg-tertiary);
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    margin-bottom: var(--space-md);
+  }
+
+  .feature-content :global(blockquote) {
+    border-left: 3px solid var(--color-brand-primary);
+    padding-left: var(--space-md);
+    margin: var(--space-lg) 0;
+    font-style: italic;
+    color: var(--color-text-secondary);
+  }
+
+  .feature-cta {
+    padding: var(--space-xl) 0;
+    background: var(--color-bg-secondary);
+    text-align: center;
+  }
+
+  .cta-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+  }
+
+  .cta-container h3 {
+    margin-bottom: var(--space-md);
+  }
+
+  .cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+</style>
