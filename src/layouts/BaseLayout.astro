@@ -1,5 +1,6 @@
 ---
 import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
 
 interface Props {
   title: string;
@@ -21,7 +22,10 @@ const theme = import.meta.env.THEME || 'light';
   </head>
   <body>
     <Nav />
-    <slot />
+    <main>
+      <slot />
+    </main>
+    <Footer />
   </body>
 </html>
 
