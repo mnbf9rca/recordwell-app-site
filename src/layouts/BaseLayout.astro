@@ -39,8 +39,9 @@ const theme = import.meta.env.THEME || 'light';
     <title>{title} | Recordwell</title>
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <Nav />
-    <main>
+    <main id="main-content">
       <slot />
     </main>
     <Footer />

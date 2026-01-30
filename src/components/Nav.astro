@@ -1,12 +1,12 @@
 ---
 const navItems = [
-  { label: 'Features', href: '#features', children: [
+  { label: 'Features', href: '/#features', children: [
     { label: 'Encryption', href: '/encryption/' },
     { label: 'Family Sharing', href: '/sharing/' },
     { label: 'Your Data', href: '/your-data/' },
     { label: 'Architecture', href: '/architecture/' },
   ]},
-  { label: 'Pricing', href: '#pricing' },
+  { label: 'Pricing', href: '/#pricing' },
   { label: 'Privacy', href: '/privacy/' },
   { label: 'Support', href: '/support/' },
 ];
@@ -31,7 +31,7 @@ const navItems = [
               <div class="nav-dropdown">
                 <button class="nav-link nav-dropdown-trigger">
                   {item.label}
-                  <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 12 12">
+                  <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
                     <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
                   </svg>
                 </button>
@@ -252,9 +252,30 @@ const navItems = [
   const toggle = document.querySelector('.nav-toggle');
   const menu = document.querySelector('.nav-menu');
 
+  const isOpen = () => toggle?.getAttribute('aria-expanded') === 'true';
+
+  const closeMenu = () => {
+    toggle?.setAttribute('aria-expanded', 'false');
+    menu?.classList.remove('open');
+  };
+
   toggle?.addEventListener('click', () => {
-    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    const expanded = isOpen();
     toggle.setAttribute('aria-expanded', String(!expanded));
     menu?.classList.toggle('open');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!isOpen()) return;
+    const target = e.target as Element;
+    if (!menu?.contains(target) && !toggle?.contains(target)) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isOpen()) {
+      closeMenu();
+    }
   });
 </script>
