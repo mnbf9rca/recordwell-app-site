@@ -26,16 +26,33 @@ import FeatureLayout from '../layouts/FeatureLayout.astro';
     <li><strong>AES-256-GCM</strong> - Industry-standard encryption for all your medical records. The same encryption used by banks and governments.</li>
   </ul>
 
+  <h2>Technical standards</h2>
+  <p>
+    We use well-established, audited cryptographic standards - no homegrown crypto:
+  </p>
+  <ul>
+    <li><strong>AES-256-GCM</strong> - Authenticated encryption for all record data. NIST-approved, used by governments worldwide.</li>
+    <li><strong>Argon2id</strong> - Password-based key derivation. Winner of the Password Hashing Competition, designed to resist GPU and ASIC attacks.</li>
+    <li><strong>X25519</strong> - Elliptic curve Diffie-Hellman for key exchange when sharing records between family members.</li>
+    <li><strong>OPAQUE (RFC 9807)</strong> - Asymmetric password-authenticated key exchange for login. Your password is never sent to or seen by our server - not even as a hash. This also means we cannot confirm whether any specific person has registered for the service.</li>
+    <li><strong>HKDF-SHA256</strong> - Key derivation for generating per-record and per-member encryption keys from your primary key.</li>
+  </ul>
+  <p>
+    On iOS, we use Apple's CryptoKit framework which provides hardware-backed implementations where available.
+  </p>
+
   <h2>What we can see</h2>
   <p>
     We believe in being honest about privacy trade-offs. Our server can see:
   </p>
   <ul>
-    <li>That you have an account</li>
     <li>When you sync (timestamps)</li>
     <li>How much encrypted data you store (blob sizes)</li>
     <li>Who you share with (email addresses for invitations)</li>
   </ul>
+  <p>
+    Notably, because of OPAQUE, we cannot actually confirm that any particular person has an account. We store cryptographic material that lets you prove you know your password, but we cannot use it to identify you.
+  </p>
   <p>
     Our server cannot see:
   </p>
