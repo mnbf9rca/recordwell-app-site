@@ -12,48 +12,55 @@ const lastUpdated = "January 2026";
 >
   <h2>The Short Version</h2>
   <p>
-    Your medical records are end-to-end encrypted. We cannot read them. We collect minimal data needed to operate the service. We don't sell your information to anyone.
+    Your medical records are end-to-end encrypted. We cannot read them. We collect almost nothing - not even your email address. We don't sell your information to anyone.
   </p>
 
   <h2>What We Collect</h2>
 
   <h3>Account Information</h3>
   <p>
-    When you create a Sync account, we collect:
+    When you create a Sync account, we store:
   </p>
   <ul>
-    <li>Email address (for account recovery and service communications)</li>
     <li>Authentication credentials (stored using OPAQUE - we never see your password)</li>
   </ul>
   <p>
-    OPAQUE is a cryptographic protocol that means we have no way to know who has actually registered for the service. We store cryptographic material that lets you prove you know your password, but we cannot use it to identify you or verify that any particular person has an account. Even if compelled, we cannot confirm whether a specific individual is a user.</p>
-
-  <h3>Usage Data</h3>
+    That's it. No email address. No name. No identifying information.
+  </p>
   <p>
-    We collect minimal technical data:
+    OPAQUE is a cryptographic protocol that means we have no way to know who has actually registered for the service. We store cryptographic material that lets you prove you know your password, but we cannot use it to identify you or verify that any particular person has an account. Even if compelled, we cannot confirm whether a specific individual is a user.
+  </p>
+
+  <h3>Server-Side Data</h3>
+  <p>
+    Our servers handle:
   </p>
   <ul>
-    <li>Sync timestamps (when you last synced)</li>
-    <li>Storage usage (how much encrypted data you store)</li>
-    <li>Error logs (to fix bugs - no personal data included)</li>
+    <li>Encrypted blobs (your data, completely unreadable to us)</li>
+    <li>Technical error logs (server errors only - no content, no personal data)</li>
   </ul>
+  <p>
+    The app does not send error logs or analytics to us unless you explicitly choose to share them.
+  </p>
 
   <h3>What We Cannot See</h3>
   <p>
     Due to end-to-end encryption, we cannot see:
   </p>
   <ul>
-    <li>Medical record contents</li>
+    <li>Any medical record contents</li>
+    <li>How many records you have</li>
+    <li>What types of records you store</li>
     <li>Family member names</li>
-    <li>Attachment contents or file names</li>
+    <li>Attachment contents or filenames</li>
     <li>Your encryption keys or password</li>
+    <li>What you share with whom (we can see that user A shares something with user B, but not what content)</li>
   </ul>
 
   <h2>How We Use Your Data</h2>
   <ul>
     <li>Provide the Sync service (store and transmit your encrypted data)</li>
-    <li>Send service emails (password reset, important updates)</li>
-    <li>Fix bugs and improve the service</li>
+    <li>Fix server-side bugs using technical error logs</li>
   </ul>
 
   <h2>Data Sharing</h2>
@@ -65,7 +72,7 @@ const lastUpdated = "January 2026";
   </p>
   <ul>
     <li>Infrastructure providers (cloud hosting, storage) - they only see encrypted blobs</li>
-    <li>Law enforcement - if legally required, but we can only provide encrypted data we cannot read</li>
+    <li>Law enforcement - if legally required, but we can only provide encrypted data we cannot read, and we cannot confirm who owns any account</li>
   </ul>
 
   <h2>Data Retention</h2>
@@ -80,21 +87,20 @@ const lastUpdated = "January 2026";
   <ul>
     <li>Export your data at any time (in-app export feature)</li>
     <li>Delete your account and all associated data</li>
-    <li>Request information about what we store</li>
   </ul>
 
   <h2>Children's Privacy</h2>
   <p>
-    Recordwell is designed for families, including records for children. Parents/guardians manage their children's data. We don't knowingly collect data directly from children under 13.
+    Recordwell is designed for families, including records for children. Parents and guardians manage their children's data within the app. We don't collect personal information on anyone - adults or children.
   </p>
 
   <h2>Changes to This Policy</h2>
   <p>
-    We'll notify you of significant changes via email or in-app notification. Continued use after changes constitutes acceptance.
+    Significant changes will be announced in-app and on our GitHub repository. Continued use after changes constitutes acceptance.
   </p>
 
-  <h2>Contact</h2>
+  <h2>Questions</h2>
   <p>
-    Questions about privacy? Email us at <a href="mailto:privacy@recordwell.app">privacy@recordwell.app</a>.
+    Questions about privacy? Open an issue on our <a href="https://github.com/mnbf9rca/family-medical-app/issues" target="_blank" rel="noopener">GitHub repository</a>.
   </p>
 </FeatureLayout>

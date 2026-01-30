@@ -22,3 +22,5 @@ Interpret creatively and make unexpected choices that feel genuinely designed fo
 Never use emdash (`—`), use spaced dash (` - `) instead
 
 Never commit directly to main. Always create a feature branch for changes.
+
+Never start processes detached
