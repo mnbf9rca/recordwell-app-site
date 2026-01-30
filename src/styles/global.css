@@ -1,3 +1,7 @@
+/* Theme imports must come first */
+@import './themes/light.css';
+@import './themes/dark.css';
+
 /* Fraunces - warm serif for light theme headings */
 @font-face {
   font-family: 'Fraunces';
@@ -44,9 +48,6 @@
   font-weight: 100 800;
   font-display: swap;
 }
-
-@import './themes/light.css';
-@import './themes/dark.css';
 
 /* Reset */
 *, *::before, *::after {
