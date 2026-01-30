@@ -1,0 +1,76 @@
+---
+import FeatureCard from './FeatureCard.astro';
+
+const features = [
+  {
+    title: 'Zero-Knowledge Encryption',
+    description: 'Your data is encrypted before it leaves your device. Even we cannot read your medical records.',
+    href: '/encryption/',
+    icon: 'shield',
+  },
+  {
+    title: 'Family Sharing',
+    description: 'Share specific records with family members. Grandma sees vaccine records, not everything.',
+    href: '/sharing/',
+    icon: 'users',
+  },
+  {
+    title: 'Your Data, Your Control',
+    description: 'Export anytime in standard formats. No lock-in. Your health records belong to you.',
+    href: '/your-data/',
+    icon: 'download',
+  },
+  {
+    title: 'Self-Host Option',
+    description: 'Run your own backend with Docker and S3. Complete control for the privacy-conscious.',
+    href: '/architecture/',
+    icon: 'server',
+  },
+];
+---
+
+<section class="features" id="features">
+  <div class="features-container">
+    <h2 class="features-title">Built for privacy from the ground up</h2>
+    <p class="features-subtitle">Not just encrypted - architecturally private. Your medical records, truly yours.</p>
+
+    <div class="features-grid">
+      {features.map((feature) => (
+        <FeatureCard {...feature} />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .features {
+    padding: var(--space-2xl) 0;
+    background: var(--color-bg-primary);
+  }
+
+  .features-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+  }
+
+  .features-title {
+    text-align: center;
+    margin-bottom: var(--space-sm);
+  }
+
+  .features-subtitle {
+    text-align: center;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xl);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-lg);
+  }
+</style>
