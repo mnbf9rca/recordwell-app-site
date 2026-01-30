@@ -1,4 +1,4 @@
-name: Deploy
+name: Build and Deploy
 
 on:
   push:
@@ -6,35 +6,17 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Environment to deploy to'
-        required: true
-        type: choice
-        options:
-          - staging
-          - production
-        default: 'staging'
-      theme:
-        description: 'Theme to build (light or dark)'
-        required: false
-        default: 'light'
 
 permissions:
-  id-token: write
   contents: read
-  pull-requests: write
+  id-token: write
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    environment: ${{ github.event_name == 'pull_request' && 'staging' || github.event.inputs.environment || 'production' }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-        with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
@@ -47,56 +29,76 @@ jobs:
 
       - name: Build site
         run: npm run build
-        env:
-          THEME: ${{ github.event.inputs.theme || 'light' }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          include-hidden-files: true
+
+  deploy-staging:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    environment:
+      name: staging
+      url: https://staging.recordwell.app
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ vars.AWS_ROLE_ARN }}
-          aws-region: ${{ vars.AWS_REGION || 'us-east-1' }}
+          aws-region: eu-west-2
 
-      - name: Sync to S3
+      - name: Deploy to S3
+        run: aws s3 sync ./dist s3://${{ vars.S3_BUCKET }} --delete
+
+      - name: Set content-type for apple-app-site-association
         run: |
-          # Sync assets with long cache (exclude .well-known for separate handling)
-          aws s3 sync dist/ "s3://${{ vars.S3_BUCKET }}" \
-            --delete \
-            --cache-control "public, max-age=31536000, immutable" \
-            --exclude "*.html" \
-            --exclude "*.xml" \
-            --exclude "*.json" \
-            --exclude ".well-known/*"
-
-          # Sync HTML/XML/JSON with no-cache
-          aws s3 sync dist/ "s3://${{ vars.S3_BUCKET }}" \
-            --cache-control "public, max-age=0, must-revalidate" \
-            --include "*.html" \
-            --include "*.xml" \
-            --include "*.json" \
-            --exclude ".well-known/*"
-
-          # Upload apple-app-site-association with correct content-type
-          if [ -f dist/.well-known/apple-app-site-association ]; then
-            aws s3 cp dist/.well-known/apple-app-site-association \
-              "s3://${{ vars.S3_BUCKET }}/.well-known/apple-app-site-association" \
-              --content-type "application/json" \
-              --cache-control "public, max-age=3600"
-          fi
+          aws s3 cp s3://${{ vars.S3_BUCKET }}/.well-known/apple-app-site-association \
+            s3://${{ vars.S3_BUCKET }}/.well-known/apple-app-site-association \
+            --content-type application/json --metadata-directive REPLACE
 
       - name: Invalidate CloudFront cache
-        run: |
-          aws cloudfront create-invalidation \
-            --distribution-id "${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}" \
-            --paths "/*"
+        run: aws cloudfront create-invalidation --distribution-id ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
 
-      - name: Comment on PR with staging URL
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
+  deploy-production:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment:
+      name: production
+      url: https://recordwell.app
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
         with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '🚀 Deployed to staging: https://staging.recordwell.app'
-            })
+          name: dist
+          path: dist/
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: eu-west-2
+
+      - name: Deploy to S3
+        run: aws s3 sync ./dist s3://${{ vars.S3_BUCKET }} --delete
+
+      - name: Set content-type for apple-app-site-association
+        run: |
+          aws s3 cp s3://${{ vars.S3_BUCKET }}/.well-known/apple-app-site-association \
+            s3://${{ vars.S3_BUCKET }}/.well-known/apple-app-site-association \
+            --content-type application/json --metadata-directive REPLACE
+
+      - name: Invalidate CloudFront cache
+        run: aws cloudfront create-invalidation --distribution-id ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
