@@ -1,3 +1,50 @@
+/* Fraunces - warm serif for light theme headings */
+@font-face {
+  font-family: 'Fraunces';
+  src: url('/fonts/Fraunces-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+/* Source Sans 3 - clean sans for light theme body */
+@font-face {
+  font-family: 'Source Sans 3';
+  src: url('/fonts/SourceSans3-Variable.woff2') format('woff2');
+  font-weight: 200 900;
+  font-display: swap;
+}
+
+/* Space Mono - for dark theme headings */
+@font-face {
+  font-family: 'Space Mono';
+  src: url('/fonts/SpaceMono-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  src: url('/fonts/SpaceMono-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+
+/* Inter - for dark theme body */
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+/* JetBrains Mono - for code in both themes */
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono-Variable.woff2') format('woff2');
+  font-weight: 100 800;
+  font-display: swap;
+}
+
 @import './themes/light.css';
 @import './themes/dark.css';
 
